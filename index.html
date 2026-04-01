@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>飞书分享 Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- 飞书 JS-SDK -->
+  <script src="https://lf1-cdn-tos.bytegoofy.com/goofy/lark/op/h5-js-sdk-1.5.0.js"></script>
+
+  <style>
+    body {
+      font-family: Arial;
+      padding: 40px;
+      text-align: center;
+    }
+    button {
+      padding: 12px 20px;
+      font-size: 16px;
+      background: #3370ff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>飞书网页分享 Demo</h2>
+
+  <button onclick="share()">📤 分享到飞书</button>
+
+  <script>
+    // 判断是否在飞书环境
+    function isFeishu() {
+      return /Lark|Feishu/i.test(navigator.userAgent);
+    }
+
+    function share() {
+      if (!isFeishu()) {
+        alert("请在飞书客户端内打开此页面");
+        return;
+      }
+
+      if (!window.tt) {
+        alert("飞书 SDK 未加载");
+        return;
+      }
+
+      // 调用分享
+      tt.shareWebContent({
+        title: "Alice 分享测试",
+        content: "这是一个测试分享内容",
+        url: "https://alice.wind.com.cn/share/019d47a2-70b1-71b9-b84a-84ac7e8bc1b9",
+        image: "https://via.placeholder.com/300",
+
+        success(res) {
+          console.log("分享成功", res);
+          alert("分享成功");
+        },
+        fail(err) {
+          console.error("分享失败", err);
+          alert("分享失败：" + JSON.stringify(err));
+        }
+      });
+    }
+  </script>
+</body>
+</html>
